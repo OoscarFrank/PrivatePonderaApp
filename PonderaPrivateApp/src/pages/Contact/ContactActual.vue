@@ -4,7 +4,7 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 
 export default defineComponent({
-  name: "ContactActual",
+  name: "ContactAll",
   setup() {
     const router = useRouter();
     var clientGroups = {
@@ -36,32 +36,32 @@ export default defineComponent({
       Z: [],
     };
     var clients = [
-      { nom: "AELLA", prenom: "Zala", actual: "true" },
-      { nom: "BELLA", prenom: "Zali", actual: "true" },
-      { nom: "CELLA", prenom: "Zalu", actual: "true" },
-      { nom: "DELLA", prenom: "Zale", actual: "true" },
-      { nom: "EELLA", prenom: "Zale", actual: "true" },
-      { nom: "FELLA", prenom: "Zale", actual: "false" },
-      { nom: "GELLA", prenom: "Zale", actual: "true" },
-      { nom: "HELLA", prenom: "Zale", actual: "true" },
-      { nom: "IELLA", prenom: "Zale", actual: "true" },
-      { nom: "JELLA", prenom: "Zale", actual: "true" },
-      { nom: "KELLA", prenom: "Zale", actual: "true" },
-      { nom: "LELLA", prenom: "Zale", actual: "true" },
-      { nom: "MELLA", prenom: "Zale", actual: "false" },
-      { nom: "NELLA", prenom: "Zale", actual: "true" },
-      { nom: "OELLA", prenom: "Zale", actual: "true" },
-      { nom: "PELLA", prenom: "Zale", actual: "true" },
-      { nom: "QELLA", prenom: "Zale", actual: "false" },
-      { nom: "RELLA", prenom: "Zale", actual: "false" },
-      { nom: "SELLA", prenom: "Zale", actual: "false" },
-      { nom: "TELLA", prenom: "Zale", actual: "true" },
-      { nom: "UELLA", prenom: "Zale", actual: "true" },
-      { nom: "VELLA", prenom: "Zale", actual: "true" },
-      { nom: "WELLA", prenom: "Zale", actual: "true" },
-      { nom: "XELLA", prenom: "Zale", actual: "true" },
-      { nom: "YELLA", prenom: "Zale", actual: "false" },
-      { nom: "ZELLA", prenom: "Zale", actual: "false" },
+      { nom: "AELLA", prenom: "Zala", actual: 0 },
+      { nom: "BELLA", prenom: "Zali", actual: 1 },
+      { nom: "CELLA", prenom: "Zalu", actual: 1 },
+      { nom: "DELLA", prenom: "Zale", actual: 1 },
+      { nom: "EELLA", prenom: "Zale", actual: 1 },
+      { nom: "FELLA", prenom: "Zale", actual: 0 },
+      { nom: "GELLA", prenom: "Zale", actual: 1 },
+      { nom: "HELLA", prenom: "Zale", actual: 1 },
+      { nom: "IELLA", prenom: "Zale", actual: 1 },
+      { nom: "JELLA", prenom: "Zale", actual: 1 },
+      { nom: "KELLA", prenom: "Zale", actual: 1 },
+      { nom: "LELLA", prenom: "Zale", actual: 1 },
+      { nom: "MELLA", prenom: "Zale", actual: 0 },
+      { nom: "NELLA", prenom: "Zale", actual: 1 },
+      { nom: "OELLA", prenom: "Zale", actual: 1 },
+      { nom: "PELLA", prenom: "Zale", actual: 1 },
+      { nom: "QELLA", prenom: "Zale", actual: 0 },
+      { nom: "RELLA", prenom: "Zale", actual: 0 },
+      { nom: "SELLA", prenom: "Zale", actual: 0 },
+      { nom: "TELLA", prenom: "Zale", actual: 1 },
+      { nom: "UELLA", prenom: "Zale", actual: 1 },
+      { nom: "VELLA", prenom: "Zale", actual: 1 },
+      { nom: "WELLA", prenom: "Zale", actual: 1 },
+      { nom: "XELLA", prenom: "Zale", actual: 1 },
+      { nom: "YELLA", prenom: "Zale", actual: 0 },
+      { nom: "ZELLA", prenom: "Zale", actual: 0 },
     ];
     for (const client of clients) {
       clientGroups[client.nom[0]].push(client);
@@ -114,6 +114,7 @@ export default defineComponent({
         </q-btn-dropdown>
       </q-toolbar>
     </div>
+
     <div style="position: relative; top: 70px" class="shadow-3 q-pa-sm">
       <q-input outlined label="Rechercher">
         <template v-slot:append>
@@ -134,8 +135,10 @@ export default defineComponent({
         >
           <span>{{ index }}</span>
         </q-item>
-        <q-item clickable v-ripple v-for="client in group" :key="client">
-          <span class="q-ma-sm">{{ client.nom }}</span>
+        <q-item v-ripple v-for="client in group" :key="client">
+          <span v-if="client.actual === 1" class="q-ma-sm">
+            {{ client.nom }} {{ client.prenom }}</span
+          >
         </q-item>
       </q-list>
     </div>

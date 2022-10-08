@@ -6,7 +6,6 @@ import { useRouter } from "vue-router";
 export default defineComponent({
   name: "ContactAll",
   setup() {
-    const actualOnly = ref(false);
     const router = useRouter();
     var clientGroups = {
       A: [],
@@ -37,32 +36,32 @@ export default defineComponent({
       Z: [],
     };
     var clients = [
-      { nom: "AELLA", prenom: "Zala", actual: "1" },
-      { nom: "BELLA", prenom: "Zali", actual: "1" },
-      { nom: "CELLA", prenom: "Zalu", actual: "1" },
-      { nom: "DELLA", prenom: "Zale", actual: "1" },
-      { nom: "EELLA", prenom: "Zale", actual: "1" },
-      { nom: "FELLA", prenom: "Zale", actual: "0" },
-      { nom: "GELLA", prenom: "Zale", actual: "1" },
-      { nom: "HELLA", prenom: "Zale", actual: "1" },
-      { nom: "IELLA", prenom: "Zale", actual: "1" },
-      { nom: "JELLA", prenom: "Zale", actual: "1" },
-      { nom: "KELLA", prenom: "Zale", actual: "1" },
-      { nom: "LELLA", prenom: "Zale", actual: "1" },
-      { nom: "MELLA", prenom: "Zale", actual: "0" },
-      { nom: "NELLA", prenom: "Zale", actual: "1" },
-      { nom: "OELLA", prenom: "Zale", actual: "1" },
-      { nom: "PELLA", prenom: "Zale", actual: "1" },
-      { nom: "QELLA", prenom: "Zale", actual: "0" },
-      { nom: "RELLA", prenom: "Zale", actual: "0" },
-      { nom: "SELLA", prenom: "Zale", actual: "0" },
-      { nom: "TELLA", prenom: "Zale", actual: "1" },
-      { nom: "UELLA", prenom: "Zale", actual: "1" },
-      { nom: "VELLA", prenom: "Zale", actual: "1" },
-      { nom: "WELLA", prenom: "Zale", actual: "1" },
-      { nom: "XELLA", prenom: "Zale", actual: "1" },
-      { nom: "YELLA", prenom: "Zale", actual: "0" },
-      { nom: "ZELLA", prenom: "Zale", actual: "0" },
+      { nom: "AELLA", prenom: "Zala", actual: 0 },
+      { nom: "BELLA", prenom: "Zali", actual: 1 },
+      { nom: "CELLA", prenom: "Zalu", actual: 1 },
+      { nom: "DELLA", prenom: "Zale", actual: 1 },
+      { nom: "EELLA", prenom: "Zale", actual: 1 },
+      { nom: "FELLA", prenom: "Zale", actual: 0 },
+      { nom: "GELLA", prenom: "Zale", actual: 1 },
+      { nom: "HELLA", prenom: "Zale", actual: 1 },
+      { nom: "IELLA", prenom: "Zale", actual: 1 },
+      { nom: "JELLA", prenom: "Zale", actual: 1 },
+      { nom: "KELLA", prenom: "Zale", actual: 1 },
+      { nom: "LELLA", prenom: "Zale", actual: 1 },
+      { nom: "MELLA", prenom: "Zale", actual: 0 },
+      { nom: "NELLA", prenom: "Zale", actual: 1 },
+      { nom: "OELLA", prenom: "Zale", actual: 1 },
+      { nom: "PELLA", prenom: "Zale", actual: 1 },
+      { nom: "QELLA", prenom: "Zale", actual: 0 },
+      { nom: "RELLA", prenom: "Zale", actual: 0 },
+      { nom: "SELLA", prenom: "Zale", actual: 0 },
+      { nom: "TELLA", prenom: "Zale", actual: 1 },
+      { nom: "UELLA", prenom: "Zale", actual: 1 },
+      { nom: "VELLA", prenom: "Zale", actual: 1 },
+      { nom: "WELLA", prenom: "Zale", actual: 1 },
+      { nom: "XELLA", prenom: "Zale", actual: 1 },
+      { nom: "YELLA", prenom: "Zale", actual: 0 },
+      { nom: "ZELLA", prenom: "Zale", actual: 0 },
     ];
     for (const client of clients) {
       clientGroups[client.nom[0]].push(client);
@@ -70,15 +69,12 @@ export default defineComponent({
     return {
       ActualOnly: () => {
         router.push("/ContactActual");
-        // actualOnly.value = true;
       },
       ShowAllContact: () => {
         router.push("/ContactAll");
-        // actualOnly.value = false;
       },
       clientGroups,
       clients,
-      actualOnly,
     };
   },
 });
@@ -140,9 +136,7 @@ export default defineComponent({
           <span>{{ index }}</span>
         </q-item>
         <q-item v-ripple v-for="client in group" :key="client">
-          <span v-if="actualOnly !== true" class="q-ma-sm">
-            {{ client.nom }}</span
-          >
+          <span class="q-ma-sm"> {{ client.nom }} {{ client.prenom }}</span>
         </q-item>
       </q-list>
     </div>
