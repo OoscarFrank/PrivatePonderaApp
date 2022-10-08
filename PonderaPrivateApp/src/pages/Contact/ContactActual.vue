@@ -97,17 +97,22 @@ export default defineComponent({
             <q-item
               clickable
               v-close-popup
-              class="text-center"
+              class="text-center bg-grey-4"
               @click="ActualOnly()"
             >
               <q-item-section>
-                <q-item-label>Clients actifs</q-item-label>
+                <q-item-label class="text-blue">Clients actifs</q-item-label>
               </q-item-section>
             </q-item>
 
-            <q-item clickable v-close-popup @click="ShowAllContact()">
+            <q-item
+              clickable
+              v-close-popup
+              @click="ShowAllContact()"
+              class="bg-grey-4"
+            >
               <q-item-section>
-                <q-item-label>Tous les clients</q-item-label>
+                <q-item-label class="text-blue">Tous les clients</q-item-label>
               </q-item-section>
             </q-item>
           </q-list>
