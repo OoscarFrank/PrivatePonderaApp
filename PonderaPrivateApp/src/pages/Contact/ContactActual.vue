@@ -109,7 +109,7 @@ export default defineComponent({
               clickable
               v-close-popup
               @click="ShowAllContact()"
-              class="bg-grey-4"
+              class="text-center bg-grey-4"
             >
               <q-item-section>
                 <q-item-label class="text-blue">Tous les clients</q-item-label>
