@@ -9,7 +9,7 @@ export default defineComponent({
     const router = useRouter();
     return {
       LogIn: () => {
-        router.push("/ContactAll");
+        router.push("/Contact");
       },
     };
   },

@@ -4,8 +4,9 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 
 export default defineComponent({
-  name: "ContactAll",
+  name: "ContactPage",
   setup() {
+    const actualOnly = ref(false);
     const router = useRouter();
     var clientGroups = {
       A: [],
@@ -68,13 +69,14 @@ export default defineComponent({
     }
     return {
       ActualOnly: () => {
-        router.push("/ContactActual");
+        actualOnly.value = true;
       },
       ShowAllContact: () => {
-        router.push("/ContactAll");
+        actualOnly.value = false;
       },
       clientGroups,
       clients,
+      actualOnly,
     };
   },
 });
@@ -90,8 +92,6 @@ export default defineComponent({
         <q-btn round class="q-mx-sm" icon="event" />
         <q-btn round class="q-mx-sm" icon="wallet" />
         <q-space />
-        <!-- <q-btn round class="q-mx-sm" icon="more_vert" /> -->
-
         <q-btn-dropdown dropdown-icon="more_vert">
           <q-list>
             <q-item
@@ -101,7 +101,7 @@ export default defineComponent({
               @click="ActualOnly()"
             >
               <q-item-section>
-                <q-item-label class="text-blue">Clients actifs</q-item-label>
+                <q-item-label>Clients actifs</q-item-label>
               </q-item-section>
             </q-item>
 
@@ -112,7 +112,7 @@ export default defineComponent({
               class="text-center bg-grey-4"
             >
               <q-item-section>
-                <q-item-label class="text-blue">Tous les clients</q-item-label>
+                <q-item-label>Tous les clients</q-item-label>
               </q-item-section>
             </q-item>
           </q-list>
@@ -141,7 +141,13 @@ export default defineComponent({
           <span>{{ index }}</span>
         </q-item>
         <q-item v-ripple v-for="client in group" :key="client">
-          <span v-if="client.actual === 1" class="q-ma-sm">
+          <span v-if="actualOnly === false" class="q-ma-sm">
+            {{ client.nom }} {{ client.prenom }}</span
+          >
+          <span
+            v-if="actualOnly === true && client.actual === 1"
+            class="q-ma-sm"
+          >
             {{ client.nom }} {{ client.prenom }}</span
           >
         </q-item>
