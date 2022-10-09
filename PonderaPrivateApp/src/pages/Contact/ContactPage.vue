@@ -102,7 +102,6 @@ export default defineComponent({
     for (const clientActual of clients) {
       if (clientActual.actual === 1) {
         clientGroupsActual[clientActual.nom[0]].push(clientActual);
-        console.log(clientGroupsActual.B);
       }
     }
     return {
@@ -184,12 +183,10 @@ export default defineComponent({
         :key="index"
         @click="GoAboutContactPage()"
       >
-        <q-item
-          class="bg-primary text-bold"
-          style="height: 16px; font-size: 18px"
-        >
-          <span>{{ index }}</span>
-        </q-item>
+        <q-card class="bg-primary text-bold" flat>
+          <!-- style="height: 16px; font-size: 18px" -->
+          <span class="q-ma-sm">{{ index }}</span>
+        </q-card>
 
         <q-item v-ripple v-for="client in group" :key="client">
           <span class="q-ma-sm"> {{ client.nom }} {{ client.prenom }}</span>
@@ -202,17 +199,14 @@ export default defineComponent({
       <q-list
         dense
         separator
-        clickable
         v-for="(group, index) in clientGroupsActual"
         :key="index"
         @click="GoAboutContactPage()"
       >
-        <q-item
-          class="bg-primary text-bold"
-          style="height: 16px; font-size: 18px"
-        >
+        <q-card class="bg-primary text-bold" flat>
+          <!-- style="height: 16px; font-size: 18px" -->
           <span>{{ index }}</span>
-        </q-item>
+        </q-card>
 
         <q-item v-ripple v-for="clientActual in group" :key="clientActual">
           <span class="q-ma-sm">
@@ -239,8 +233,3 @@ export default defineComponent({
     </div>
   </q-page>
 </template>
-
-<!-- v-if="
-actualOnly === false ||
-(actualOnly === true && client.actual === 1)
-" -->
