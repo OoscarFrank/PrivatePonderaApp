@@ -12,6 +12,18 @@ const routes = [
         path: "ContactAbout",
         component: () => import("pages/Contact/ContactAboutPage.vue"),
       },
+      {
+        path: "RecentCallsPage",
+        component: () => import("pages/RecentCalls/RecentCallsPage.vue"),
+      },
+      {
+        path: "CalendarPage",
+        component: () => import("pages/Calendar/CalendarPage.vue"),
+      },
+      {
+        path: "RemindersPage",
+        component: () => import("pages/WalletReminders/RemindersPage.vue"),
+      },
     ],
   },
 

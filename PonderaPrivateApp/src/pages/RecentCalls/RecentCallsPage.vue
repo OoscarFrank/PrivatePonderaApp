@@ -4,9 +4,8 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 
 export default defineComponent({
-  name: "ContactPage",
+  name: "RecentCallsPage",
   setup() {
-    var inputSearch = ref("");
     const actualOnly = ref(false);
     const router = useRouter();
     var clientGroups = {
@@ -117,21 +116,9 @@ export default defineComponent({
       GoWalletPage: () => {
         router.push("/RemindersPage");
       },
-      ActualOnly: () => {
-        actualOnly.value = true;
-      },
-      ShowAllContact: () => {
-        actualOnly.value = false;
-      },
-      GoAboutContactPage: () => {
-        router.push("/ContactAbout");
-        console.log("coucou");
-      },
+      actualOnly,
       clientGroups,
       clientGroupsActual,
-      clients,
-      actualOnly,
-      inputSearch,
     };
   },
 });
@@ -144,117 +131,17 @@ export default defineComponent({
     <!-- Top bar with buttons and options if it's available -->
     <div class="fixed-top bg-white shadow-2 q-pb-sm" style="z-index: 999">
       <q-toolbar>
+        <q-btn round class="q-mx-sm" icon="person" @click="GoContactPage()" />
         <q-btn
           round
           class="q-mx-sm"
-          icon="person"
+          icon="history"
           color="blue"
-          @click="GoContactPage()"
+          @click="GoCallsPage()"
         />
-        <q-btn round class="q-mx-sm" icon="history" @click="GoCallsPage()" />
         <q-btn round class="q-mx-sm" icon="event" @click="GoCalendarPage()" />
         <q-btn round class="q-mx-sm" icon="wallet" @click="GoWalletPage()" />
-        <q-space />
-        <q-btn-dropdown dropdown-icon="more_vert">
-          <q-list>
-            <q-item
-              clickable
-              v-close-popup
-              class="text-center bg-grey-4"
-              @click="ActualOnly()"
-            >
-              <q-item-section>
-                <q-item-label>Clients actifs</q-item-label>
-              </q-item-section>
-            </q-item>
-
-            <q-item
-              clickable
-              v-close-popup
-              @click="ShowAllContact()"
-              class="text-center bg-grey-4"
-            >
-              <q-item-section>
-                <q-item-label>Tous les clients</q-item-label>
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </q-btn-dropdown>
       </q-toolbar>
-    </div>
-
-    <!-- Serach bar to find a contact -->
-    <div style="position: relative; top: 70px" class="shadow-3 q-pa-sm">
-      <q-input outlined label="Rechercher" v-model="inputSearch">
-        <template v-slot:append>
-          <q-icon name="search" />
-        </template>
-      </q-input>
-    </div>
-
-    <!-- Create list of contact when ActualOnly is disable -->
-    <div style="position: relative; top: 78px" v-if="actualOnly === false">
-      <q-list
-        dense
-        separator
-        v-for="(group, index) in clientGroups"
-        :key="index"
-      >
-        <q-item class="bg-primary">
-          <q-item-section class="text-bold"> {{ index }} </q-item-section>
-        </q-item>
-        <q-item
-          clickable
-          v-ripple
-          v-for="client in group"
-          :key="client"
-          @click="GoAboutContactPage()"
-        >
-          <q-item-section> {{ client.nom }} {{ client.prenom }}</q-item-section>
-        </q-item>
-      </q-list>
-    </div>
-
-    <!-- Create list of contact when ActualOnly is enable -->
-    <div style="position: relative; top: 78px" v-if="actualOnly === true">
-      <q-list
-        dense
-        separator
-        v-for="(group, index) in clientGroupsActual"
-        :key="index"
-      >
-        <q-item class="bg-primary">
-          <q-item-section class="text-bold"> {{ index }} </q-item-section>
-        </q-item>
-
-        <q-item
-          clickable
-          v-ripple
-          v-for="clientActual in group"
-          :key="clientActual"
-          @click="GoAboutContactPage()"
-        >
-          <q-item-section>
-            {{ clientActual.nom }} {{ clientActual.prenom }}</q-item-section
-          >
-        </q-item>
-      </q-list>
-    </div>
-
-    <div
-      class="fixed-right text-blue text-bold"
-      style="z-index: 998; top: 145px"
-    >
-      <q-list
-        clickable
-        dense
-        v-for="(group, index) in clientGroups"
-        :key="index"
-      >
-        <q-btn flat class="text-bold" style="font-size: 10px; height: 10px">
-          {{ index }}
-        </q-btn>
-      </q-list>
     </div>
   </q-page>
 </template>
