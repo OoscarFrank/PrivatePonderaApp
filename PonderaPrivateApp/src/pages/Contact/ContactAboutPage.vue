@@ -69,6 +69,18 @@ export default defineComponent({
       clientGroups[client.nom[0]].push(client);
     }
     return {
+      GoContactPage: () => {
+        router.push("/Contact");
+      },
+      GoCallsPage: () => {
+        router.push("/RecentCallsPage");
+      },
+      GoCalendarPage: () => {
+        router.push("/CalendarPage");
+      },
+      GoWalletPage: () => {
+        router.push("/RemindersPage");
+      },
       ActualOnly: () => {
         actualOnly.value = true;
       },
@@ -95,10 +107,16 @@ export default defineComponent({
     <div class="bg-white" />
     <div class="fixed-top bg-white shadow-2 q-pb-sm" style="z-index: 999">
       <q-toolbar>
-        <q-btn round class="q-mx-sm" icon="person" color="blue" />
-        <q-btn round class="q-mx-sm" icon="history" />
-        <q-btn round class="q-mx-sm" icon="event" />
-        <q-btn round class="q-mx-sm" icon="wallet" />
+        <q-btn
+          round
+          class="q-mx-sm"
+          icon="person"
+          color="blue"
+          @click="GoContactPage()"
+        />
+        <q-btn round class="q-mx-sm" icon="history" @click="GoCallsPage()" />
+        <q-btn round class="q-mx-sm" icon="event" @click="GoCalendarPage()" />
+        <q-btn round class="q-mx-sm" icon="wallet" @click="GoWalletPage()" />
         <q-space />
       </q-toolbar>
     </div>
