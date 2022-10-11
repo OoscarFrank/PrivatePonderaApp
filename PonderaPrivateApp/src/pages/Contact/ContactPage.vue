@@ -1,15 +1,52 @@
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, getCurrentInstance } from "vue";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 
 export default defineComponent({
   name: "ContactPage",
   setup() {
+    const { proxy } = getCurrentInstance();
+    const that = getCurrentInstance();
+    const $axios = that.appContext.app.config.globalProperties.$axios;
+    const $q = that.appContext.app.config.globalProperties.$q;
+    const $apiUrl = that.appContext.app.config.globalProperties.$apiUrl;
+
+    const loadClients = function () {
+      $axios.defaults.headers.common["api-key"] = localStorage.tokenpro;
+      $axios
+        .post($apiUrl, {
+          route: "user",
+          cmd: "getClients",
+        })
+        .then((response) => {
+          console.log("that2222: ", that);
+          if (response.data.error === "nok") {
+            $q.notify({
+              color: "negative",
+              position: "top",
+              message: response.data.error,
+              icon: "fal fa-exclamation-triangle",
+            });
+          } else {
+            clients.value = response.data;
+          }
+        })
+        .catch(() => {
+          $q.notify({
+            color: "negative",
+            position: "top",
+            message: "erreur",
+            icon: "fal fa-exclamation-triangle",
+          });
+        });
+    };
+
     var inputSearch = ref("");
     const actualOnly = ref(false);
     const router = useRouter();
-    var clientGroups = {
+
+    var clientGroups = ref({
       A: [],
       B: [],
       C: [],
@@ -36,8 +73,8 @@ export default defineComponent({
       X: [],
       Y: [],
       Z: [],
-    };
-    var clientGroupsActual = {
+    });
+    var clientGroupsActual = ref({
       A: [],
       B: [],
       C: [],
@@ -64,46 +101,44 @@ export default defineComponent({
       X: [],
       Y: [],
       Z: [],
-    };
-    var clients = [
-      { nom: "AELLA", prenom: "Zala", actual: 0 },
-      { nom: "AELLA", prenom: "Zale", actual: 0 },
-      { nom: "BELLA", prenom: "Zali", actual: 1 },
-      { nom: "BELLA", prenom: "Zala", actual: 1 },
-      { nom: "CELLA", prenom: "Zalu", actual: 1 },
-      { nom: "CELLA", prenom: "Zala", actual: 1 },
-      { nom: "DELLA", prenom: "Zale", actual: 1 },
-      { nom: "EELLA", prenom: "Zale", actual: 1 },
-      { nom: "FELLA", prenom: "Zale", actual: 0 },
-      { nom: "GELLA", prenom: "Zale", actual: 1 },
-      { nom: "HELLA", prenom: "Zale", actual: 1 },
-      { nom: "IELLA", prenom: "Zale", actual: 1 },
-      { nom: "JELLA", prenom: "Zale", actual: 1 },
-      { nom: "KELLA", prenom: "Zale", actual: 1 },
-      { nom: "LELLA", prenom: "Zale", actual: 1 },
-      { nom: "MELLA", prenom: "Zale", actual: 0 },
-      { nom: "NELLA", prenom: "Zale", actual: 1 },
-      { nom: "OELLA", prenom: "Zale", actual: 1 },
-      { nom: "PELLA", prenom: "Zale", actual: 1 },
-      { nom: "QELLA", prenom: "Zale", actual: 0 },
-      { nom: "RELLA", prenom: "Zale", actual: 0 },
-      { nom: "SELLA", prenom: "Zale", actual: 0 },
-      { nom: "TELLA", prenom: "Zale", actual: 1 },
-      { nom: "UELLA", prenom: "Zale", actual: 1 },
-      { nom: "VELLA", prenom: "Zale", actual: 1 },
-      { nom: "WELLA", prenom: "Zale", actual: 1 },
-      { nom: "XELLA", prenom: "Zale", actual: 1 },
-      { nom: "YELLA", prenom: "Zale", actual: 0 },
-      { nom: "ZELLA", prenom: "Zale", actual: 0 },
-    ];
-    for (const client of clients) {
-      clientGroups[client.nom[0]].push(client);
+    });
+    var clients = ref([
+      {
+        attribution: null,
+        civility: "1",
+        codeInstitute: "pondera",
+        codepostal: "68200",
+        country: "250",
+        createTimestamp: "2017-03-21 11:07:57",
+        datenaissance: "1980-01-01",
+        enabled: "0",
+        id: "206",
+        lieunaissance: "",
+        mail: "address@email.com",
+        mobile: "0606060606",
+        newPwd: "",
+        nom: "NOM",
+        pays: "FRANCE",
+        paysnaissance: "",
+        phone: "",
+        prenom: "PRENOM",
+        programStartDate: "2020-04-30 12:37:25",
+        rue: "28, RUE DE THANN",
+        test: "0",
+        ville: "MULHOUSE",
+      },
+    ]);
+    for (const client of clients.value) {
+      clientGroups.value[client.nom[0]].push(client);
     }
-    for (const clientActual of clients) {
+    for (const clientActual of clients.value) {
       if (clientActual.actual === 1) {
-        clientGroupsActual[clientActual.nom[0]].push(clientActual);
+        clientGroupsActual.value[clientActual.nom[0]].push(clientActual);
       }
     }
+
+    loadClients();
+
     return {
       GoContactPage: () => {
         router.push("/Contact");

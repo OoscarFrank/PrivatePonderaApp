@@ -1,1 +1,52 @@
 // app global css in SCSS form
+
+.parentLogo {
+  height: 40px;
+  width: 56px;
+  padding-left: 7px;
+  margin-right: 3px;
+}
+
+.parentLogo .q-img {
+  height: 40px;
+  width: 40px;
+}
+
+.logo-animation {
+  animation-name: logo-rotate;
+  animation-duration: 10s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+
+  image-rendering: auto;
+}
+
+@-webkit-keyframes logo-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@-moz-keyframes logo-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes logo-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
