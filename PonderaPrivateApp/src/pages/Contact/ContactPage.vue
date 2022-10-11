@@ -20,7 +20,6 @@ export default defineComponent({
           cmd: "getClients",
         })
         .then((response) => {
-          console.log("that2222: ", that);
           if (response.data.error === "nok") {
             $q.notify({
               color: "negative",
