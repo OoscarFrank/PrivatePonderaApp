@@ -32,13 +32,13 @@ export default defineComponent({
             clients.value = response.data;
 
             for (const client of clients.value) {
-              clientGroups.value[client.nom[0]].push(client);
+              clientGroups.value[client.nom[0].toUpperCase()].push(client);
             }
             for (const clientActual of clients.value) {
               if (clientActual.actual === 1) {
-                clientGroupsActual.value[clientActual.nom[0]].push(
-                  clientActual
-                );
+                clientGroupsActual.value[
+                  clientActual.nom[0].toUpperCase()
+                ].push(clientActual.toUpperCase());
               }
             }
           }
@@ -248,7 +248,9 @@ export default defineComponent({
           :key="client"
           @click="GoAboutContactPage()"
         >
-          <q-item-section> {{ client.nom }} {{ client.prenom }}</q-item-section>
+          <q-item-section>
+            {{ client.nom }} {{ client.prenom }} {{ client.id }}
+          </q-item-section>
         </q-item>
       </q-list>
     </div>
@@ -273,7 +275,8 @@ export default defineComponent({
           @click="GoAboutContactPage()"
         >
           <q-item-section>
-            {{ clientActual.nom }} {{ clientActual.prenom }}</q-item-section
+            {{ clientActual.nom }} {{ clientActual.prenom }}
+            {{ clientActual.id }}</q-item-section
           >
         </q-item>
       </q-list>
