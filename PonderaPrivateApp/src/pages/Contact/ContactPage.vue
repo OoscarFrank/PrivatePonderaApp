@@ -30,6 +30,17 @@ export default defineComponent({
             });
           } else {
             clients.value = response.data;
+
+            for (const client of clients.value) {
+              clientGroups.value[client.nom[0]].push(client);
+            }
+            for (const clientActual of clients.value) {
+              if (clientActual.actual === 1) {
+                clientGroupsActual.value[clientActual.nom[0]].push(
+                  clientActual
+                );
+              }
+            }
           }
         })
         .catch(() => {
@@ -128,14 +139,6 @@ export default defineComponent({
         ville: "MULHOUSE",
       },
     ]);
-    for (const client of clients.value) {
-      clientGroups.value[client.nom[0]].push(client);
-    }
-    for (const clientActual of clients.value) {
-      if (clientActual.actual === 1) {
-        clientGroupsActual.value[clientActual.nom[0]].push(clientActual);
-      }
-    }
 
     loadClients();
 
