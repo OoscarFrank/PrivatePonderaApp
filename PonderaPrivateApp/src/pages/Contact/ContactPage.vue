@@ -31,13 +31,8 @@ export default defineComponent({
             clients.value = response.data;
 
             for (const client of clients.value) {
-              clientGroups.value[client.nom[0].toUpperCase()].push(client);
-            }
-            for (const clientActual of clients.value) {
-              if (clientActual.actual === 1) {
-                clientGroupsActual.value[
-                  clientActual.nom[0].toUpperCase()
-                ].push(clientActual.toUpperCase());
+              if (client.nom !== "") {
+                clientGroups.value[client.nom[0].toUpperCase()].push(client);
               }
             }
           }
@@ -57,34 +52,6 @@ export default defineComponent({
     const router = useRouter();
 
     var clientGroups = ref({
-      A: [],
-      B: [],
-      C: [],
-      D: [],
-      E: [],
-      F: [],
-      G: [],
-      H: [],
-      I: [],
-      J: [],
-      K: [],
-      L: [],
-      M: [],
-      N: [],
-      O: [],
-      P: [],
-      Q: [],
-      R: [],
-      S: [],
-      T: [],
-      U: [],
-      V: [],
-      W: [],
-      X: [],
-      Y: [],
-      Z: [],
-    });
-    var clientGroupsActual = ref({
       A: [],
       B: [],
       C: [],
@@ -165,7 +132,6 @@ export default defineComponent({
         console.log("coucou");
       },
       clientGroups,
-      clientGroupsActual,
       clients,
       actualOnly,
       inputSearch,
@@ -230,7 +196,7 @@ export default defineComponent({
     </div>
 
     <!-- Create list of contact when ActualOnly is disable -->
-    <div style="position: relative; top: 78px" v-if="actualOnly === false">
+    <div style="position: relative; top: 78px">
       <q-list
         dense
         separator
@@ -240,60 +206,18 @@ export default defineComponent({
         <q-item class="bg-primary">
           <q-item-section class="text-bold"> {{ index }} </q-item-section>
         </q-item>
-        <q-item
-          clickable
-          v-ripple
-          v-for="client in group"
-          :key="client"
-          @click="GoAboutContactPage()"
-        >
-          <q-item-section>
-            {{ client.nom }} {{ client.prenom }} {{ client.id }}
-          </q-item-section>
-        </q-item>
-      </q-list>
-    </div>
-
-    <!-- Create list of contact when ActualOnly is enable -->
-    <div style="position: relative; top: 78px" v-if="actualOnly === true">
-      <q-list
-        dense
-        separator
-        v-for="(group, index) in clientGroupsActual"
-        :key="index"
-      >
-        <q-item class="bg-primary">
-          <q-item-section class="text-bold"> {{ index }} </q-item-section>
-        </q-item>
-
-        <q-item
-          clickable
-          v-ripple
-          v-for="clientActual in group"
-          :key="clientActual"
-          @click="GoAboutContactPage()"
-        >
-          <q-item-section>
-            {{ clientActual.nom }} {{ clientActual.prenom }}
-            {{ clientActual.id }}</q-item-section
+        <template v-for="client in group" :key="client">
+          <q-item
+            clickable
+            v-ripple
+            v-if="!actualOnly || (actualOnly && client.enabled === '1')"
+            @click="GoAboutContactPage()"
           >
-        </q-item>
-      </q-list>
-    </div>
-
-    <div
-      class="fixed-right text-blue text-bold"
-      style="z-index: 998; top: 145px"
-    >
-      <q-list
-        clickable
-        dense
-        v-for="(group, index) in clientGroups"
-        :key="index"
-      >
-        <q-btn flat class="text-bold" style="font-size: 10px; height: 10px">
-          {{ index }}
-        </q-btn>
+            <q-item-section>
+              {{ client.nom }} {{ client.prenom }}
+            </q-item-section>
+          </q-item>
+        </template>
       </q-list>
     </div>
   </q-page>
