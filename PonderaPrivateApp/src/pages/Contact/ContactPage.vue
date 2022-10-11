@@ -127,9 +127,13 @@ export default defineComponent({
       ShowAllContact: () => {
         actualOnly.value = false;
       },
-      GoAboutContactPage: () => {
-        router.push("/ContactAbout");
-        console.log("coucou");
+      GoAboutContactPage: (selectedItem) => {
+        const selectedClient = JSON.parse(JSON.stringify(selectedItem));
+        console.log(selectedClient);
+        router.push({
+          path: "/ContactAbout",
+          query: { ...selectedClient },
+        });
       },
       clientGroups,
       clients,
@@ -211,7 +215,7 @@ export default defineComponent({
             clickable
             v-ripple
             v-if="!actualOnly || (actualOnly && client.enabled === '1')"
-            @click="GoAboutContactPage()"
+            @click="GoAboutContactPage(client)"
           >
             <q-item-section>
               {{ client.nom }} {{ client.prenom }}
