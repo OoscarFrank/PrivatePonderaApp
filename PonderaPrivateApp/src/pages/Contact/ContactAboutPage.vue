@@ -2,7 +2,6 @@
 import { defineComponent } from "vue";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-
 export default defineComponent({
   name: "ContactAbout",
   beforeRouteEnter(to, from, next) {
@@ -12,10 +11,7 @@ export default defineComponent({
   },
   setup() {
     const epingler = ref(false);
-    var inputSearch = ref("");
-    const actualOnly = ref(false);
     const router = useRouter();
-
     var client = ref({
       attribution: null,
       civility: "1",
@@ -40,7 +36,6 @@ export default defineComponent({
       test: "0",
       ville: "MULHOUSE",
     });
-
     return {
       GoContactPage: () => {
         router.push("/Contact");
@@ -66,9 +61,15 @@ export default defineComponent({
       GoBack: () => {
         router.go(-1);
       },
+      ChangeInfosClientPage: (selectedItem) => {
+        const selectedClient = JSON.parse(JSON.stringify(selectedItem));
+        console.log(selectedClient);
+        router.push({
+          path: "/EditInfosClient",
+          query: { ...selectedClient },
+        });
+      },
       client,
-      actualOnly,
-      inputSearch,
       epingler,
     };
   },
@@ -104,19 +105,23 @@ export default defineComponent({
         icon="arrow_back_ios_new"
         @click="GoBack()"
       ></q-btn>
-      <q-btn flat style="font-size: 10px" class="q-mx-sm text-blue float-right"
+      <q-btn
+        flat
+        style="font-size: 10px"
+        class="q-mx-sm text-blue float-right"
+        @click="ChangeInfosClientPage(client)"
         >modifier</q-btn
       >
       <q-card class="q-mx-sm" flat>
         <q-card-section class="text-center">
           <span class="text-bold" style="font-size: 18px"
-            >{{ client.nom }} Uiop</span
+            >{{ client.nom }} {{ client.prenom }}</span
           >
           <br />
           <span> Accompagnement Pondera Ballon </span>
         </q-card-section>
         <q-card-section class="text-center">
-          <span>15/07/2022 - - - - - - - - - - - - - - - - - - 15/07/2022</span>
+          <span>{{ client.createTimestamp }} - - - - 15/07/2022</span>
         </q-card-section>
         <q-card-section class="text-center">
           <q-btn
@@ -124,7 +129,7 @@ export default defineComponent({
             class="text-blue"
             style="font-size: 15px"
             href="telto:0612345678"
-            >06 12 34 56 78</q-btn
+            >{{ client.mobile }}</q-btn
           >
           <br />
           <q-btn
@@ -132,7 +137,7 @@ export default defineComponent({
             class="text-blue"
             style="font-size: 15px"
             href="mailto:test@gmail.com"
-            >test@gmail.com</q-btn
+            >{{ client.mail }}</q-btn
           >
         </q-card-section>
       </q-card>

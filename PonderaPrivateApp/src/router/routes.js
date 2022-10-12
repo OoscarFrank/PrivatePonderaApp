@@ -34,6 +34,10 @@ const routes = [
         component: () => import("pages/Contact/ContactAboutPage.vue"),
       },
       {
+        path: "EditInfosClient",
+        component: () => import("pages/Contact/EditInfosClientPage.vue"),
+      },
+      {
         path: "RecentCallsPage",
         component: () => import("pages/RecentCalls/RecentCallsPage.vue"),
       },

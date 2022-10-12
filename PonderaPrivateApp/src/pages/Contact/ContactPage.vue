@@ -2,7 +2,6 @@
 import { defineComponent, getCurrentInstance } from "vue";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-
 export default defineComponent({
   name: "ContactPage",
   setup() {
@@ -11,7 +10,6 @@ export default defineComponent({
     const $axios = that.appContext.app.config.globalProperties.$axios;
     const $q = that.appContext.app.config.globalProperties.$q;
     const $apiUrl = that.appContext.app.config.globalProperties.$apiUrl;
-
     const loadClients = function () {
       $axios.defaults.headers.common["api-key"] = localStorage.tokenpro;
       $axios
@@ -29,7 +27,6 @@ export default defineComponent({
             });
           } else {
             clients.value = response.data;
-
             for (const client of clients.value) {
               if (client.nom !== "") {
                 clientGroups.value[client.nom[0].toUpperCase()].push(client);
@@ -46,11 +43,9 @@ export default defineComponent({
           });
         });
     };
-
     var inputSearch = ref("");
     const actualOnly = ref(false);
     const router = useRouter();
-
     var clientGroups = ref({
       A: [],
       B: [],
@@ -105,9 +100,7 @@ export default defineComponent({
         ville: "MULHOUSE",
       },
     ]);
-
     loadClients();
-
     return {
       GoContactPage: () => {
         router.push("/Contact");
