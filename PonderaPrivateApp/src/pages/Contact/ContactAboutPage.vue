@@ -1,17 +1,58 @@
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, getCurrentInstance } from "vue";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { date } from "quasar";
+
 export default defineComponent({
   name: "ContactAbout",
   beforeRouteEnter(to, from, next) {
     next((vm) => {
-      vm.client = to.query;
+      // vm.client = to.query;
+      vm.client = window.selectedClient;
+      vm.loadClient();
     });
   },
   setup() {
+    const { proxy } = getCurrentInstance();
+    const that = getCurrentInstance();
+    const $axios = that.appContext.app.config.globalProperties.$axios;
+    const $q = that.appContext.app.config.globalProperties.$q;
+    const $apiUrl = that.appContext.app.config.globalProperties.$apiUrl;
+
+    const loadClient = function () {
+      $axios.defaults.headers.common["api-key"] = localStorage.tokenpro;
+      $axios
+        .post($apiUrl, {
+          route: "user",
+          cmd: "getClientForMobileStaff",
+          userid: client.value.id,
+        })
+        .then((response) => {
+          if (response.data.error === "nok") {
+            $q.notify({
+              color: "negative",
+              position: "top",
+              message: response.data.error,
+              icon: "fal fa-exclamation-triangle",
+            });
+          } else {
+            clientInfo.value = response.data;
+          }
+        })
+        .catch(() => {
+          $q.notify({
+            color: "negative",
+            position: "top",
+            message: "erreur",
+            icon: "fal fa-exclamation-triangle",
+          });
+        });
+    };
+
     const epingler = ref(false);
     const router = useRouter();
+
     var client = ref({
       attribution: null,
       civility: "1",
@@ -36,7 +77,66 @@ export default defineComponent({
       test: "0",
       ville: "MULHOUSE",
     });
+
+    var clientInfo = ref({
+      weight: [
+        {
+          id: "27784",
+          imcdate: "2022-09-15 14:35:47",
+          size: null,
+          weight: "89.70",
+          id_customer: null,
+          id_client: "4645",
+          abdocircumference: null,
+          bycoach: "0",
+          fat: "45.00",
+          water: "39.27",
+          bone: "1.63",
+          visceralFat: "-384.41",
+          muscle: "47.71",
+          rawdata: null,
+        },
+        {
+          id: "28489",
+          imcdate: "2022-10-12 07:43:09",
+          size: null,
+          weight: "86.00",
+          id_customer: null,
+          id_client: "4645",
+          abdocircumference: null,
+          bycoach: "0",
+          fat: null,
+          water: null,
+          bone: null,
+          visceralFat: null,
+          muscle: null,
+          rawdata: null,
+        },
+      ],
+      extraFields: [],
+      rdvs: [
+        {
+          id: "1873",
+          date: "2022-09-15",
+          id_eventtype: "31",
+          id_resources: "s5",
+          canceled: "0",
+        },
+      ],
+      contract: {
+        contratId: "302",
+        start: "2022-09-15 00:00:00",
+        end: "2023-03-15 00:00:00",
+        type: "contratBallonEllipse",
+        passed: "28",
+        remaining: "153",
+        duration: "181",
+        progress: 0.15469613259668508,
+      },
+    });
+
     return {
+      loadClient,
       GoContactPage: () => {
         router.push("/Contact");
       },
@@ -61,6 +161,12 @@ export default defineComponent({
       GoBack: () => {
         router.go(-1);
       },
+      formatDate: (dbDate) => {
+        console.log("formatDate", dbDate);
+        var str = date.formatDate(new Date(dbDate), "DD/MM/YYYY");
+
+        return str;
+      },
       ChangeInfosClientPage: (selectedItem) => {
         const selectedClient = JSON.parse(JSON.stringify(selectedItem));
         console.log(selectedClient);
@@ -70,6 +176,7 @@ export default defineComponent({
         });
       },
       client,
+      clientInfo,
       epingler,
     };
   },
@@ -121,7 +228,7 @@ export default defineComponent({
           <span> Accompagnement Pondera Ballon </span>
         </q-card-section>
         <q-card-section class="text-center">
-          <span>{{ client.programStartDate }} - - - - 15/07/2022</span>
+          <span>{{ formatDate(clientInfo.contract.start) }} - 15/07/2022</span>
         </q-card-section>
         <q-card-section class="text-center">
           <q-btn
@@ -154,7 +261,7 @@ export default defineComponent({
           >editer</q-btn
         >
         <q-card class="q-pa-sm q-ma-sm" flat>
-          <q-input outlined class="q-ma-sm" />
+          <q-input outline class="q-ma-sm" />
         </q-card>
         <q-card class="q-pa-sm q-ma-sm" flat style="height: 55px">
           <span class="float-left q-ma-sm">Épingler</span>

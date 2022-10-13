@@ -123,10 +123,16 @@ export default defineComponent({
       GoAboutContactPage: (selectedItem) => {
         const selectedClient = JSON.parse(JSON.stringify(selectedItem));
         console.log(selectedClient);
+        window.selectedClient = { ...selectedClient };
+
+        /*
         router.push({
           path: "/ContactAbout",
           query: { ...selectedClient },
         });
+        */
+
+        router.push("/ContactAbout");
       },
       clientGroups,
       clients,
