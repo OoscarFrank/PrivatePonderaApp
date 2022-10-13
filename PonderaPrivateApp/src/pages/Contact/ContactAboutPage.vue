@@ -121,7 +121,7 @@ export default defineComponent({
           <span> Accompagnement Pondera Ballon </span>
         </q-card-section>
         <q-card-section class="text-center">
-          <span>{{ client.createTimestamp }} - - - - 15/07/2022</span>
+          <span>{{ client.programStartDate }} - - - - 15/07/2022</span>
         </q-card-section>
         <q-card-section class="text-center">
           <q-btn
@@ -147,12 +147,6 @@ export default defineComponent({
         <br />
         <br />
         <span class="q-ma-sm text-grey">Note</span>
-        <q-btn
-          flat
-          style="font-size: 10px"
-          class="q-mx-sm float-right text-blue"
-          >editer</q-btn
-        >
         <q-card class="q-pa-sm q-ma-sm" flat>
           <q-input outlined class="q-ma-sm" />
         </q-card>
