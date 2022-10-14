@@ -50,8 +50,10 @@ export default defineComponent({
         });
     };
 
-    const epingler = ref(false);
     const router = useRouter();
+    const editNote = ref(false);
+    const noteText = ref("");
+    const pin = ref(false);
 
     var client = ref({
       attribution: null,
@@ -134,9 +136,8 @@ export default defineComponent({
         progress: 0.15469613259668508,
       },
     });
-
+    const show = ref(false);
     return {
-      loadClient,
       GoContactPage: () => {
         router.push("/Contact");
       },
@@ -175,9 +176,19 @@ export default defineComponent({
           query: { ...selectedClient },
         });
       },
+      EditNote: () => {
+        editNote.value = true;
+      },
+      SaveNote: () => {
+        editNote.value = false;
+        console.log(noteText);
+      },
       client,
       clientInfo,
-      epingler,
+      loadClient,
+      editNote,
+      noteText,
+      pin,
     };
   },
 });
@@ -225,10 +236,13 @@ export default defineComponent({
             >{{ client.nom }} {{ client.prenom }}</span
           >
           <br />
-          <span> Accompagnement Pondera Ballon </span>
+          <span> {{ clientInfo.contract.type }} </span>
         </q-card-section>
         <q-card-section class="text-center">
-          <span>{{ formatDate(clientInfo.contract.start) }} - 15/07/2022</span>
+          <span
+            >{{ formatDate(clientInfo.contract.start) }} -
+            {{ formatDate(clientInfo.contract.end) }}</span
+          >
         </q-card-section>
         <q-card-section class="text-center">
           <q-btn
@@ -249,23 +263,52 @@ export default defineComponent({
         </q-card-section>
       </q-card>
       <div class="q-mx-sm q-mt-sm">
-        <span class="q-ma-sm float-left">- 42kg en 42 jours</span>
-        <span class="q-ma-sm float-right">42 jours restants</span>
+        <span class="q-ma-sm float-left"
+          >{{ clientInfo.weight[0].weight }} kg en
+          {{ clientInfo.contract.passed }} jours</span
+        >
+        <span class="q-ma-sm float-right"
+          >{{ clientInfo.contract.remaining }} jours restants</span
+        >
         <br />
         <br />
         <span class="q-ma-sm text-grey">Note</span>
         <q-btn
+          v-if="!editNote"
           flat
           style="font-size: 10px"
           class="q-mx-sm float-right text-blue"
+          @click="EditNote()"
           >editer</q-btn
         >
+        <q-btn
+          v-else-if="editNote"
+          flat
+          style="font-size: 10px"
+          class="q-mx-sm float-right text-blue"
+          @click="SaveNote()"
+          >sauvegarder</q-btn
+        >
         <q-card class="q-pa-sm q-ma-sm" flat>
-          <q-input outline class="q-ma-sm" />
+          <q-input
+            v-if="!editNote"
+            v-model="noteText"
+            disable
+            type="textarea"
+            outline
+            class="q-ma-sm"
+          />
+          <q-input
+            v-if="editNote"
+            v-model="noteText"
+            type="textarea"
+            outline
+            class="q-ma-sm"
+          />
         </q-card>
         <q-card class="q-pa-sm q-ma-sm" flat style="height: 55px">
           <span class="float-left q-ma-sm">Épingler</span>
-          <q-toggle v-model="epingler" class="float-right" color="blue" />
+          <q-toggle v-model="pin" class="float-right" color="blue" />
         </q-card>
         <q-btn
           flat
@@ -273,25 +316,38 @@ export default defineComponent({
           class="q-mx-sm float-right text-blue"
           >Ajouter un rendez-vous</q-btn
         >
-        <q-list bordered separator class="q-mt-xl q-mx-sm bg-white">
-          <q-item>
-            <q-item-section>
-              <span class="float-left text-blue">Jeudi 13 Octobre</span>
-            </q-item-section>
-            <q-item-section avatar>
-              <span class="float-right text-blue">15h00</span>
-            </q-item-section>
-          </q-item>
 
-          <q-item>
-            <q-item-section>
-              <span>Jeudi 20 Octobre</span>
-            </q-item-section>
-            <q-item-section avatar>
-              <span>15h00</span>
-            </q-item-section>
-          </q-item>
+        <q-list
+          class="q-mt-xl q-mx-sm bg-white"
+          dense
+          separator
+          v-for="(group, index) in clientInfo"
+          :key="index"
+        >
+          <template v-for="infosrdv in group" :key="infosrdv">
+            <q-item clickable v-ripple v-if="infosrdv.date">
+              <q-item-section>
+                {{ infosrdv.date }}
+              </q-item-section>
+            </q-item>
+          </template>
         </q-list>
+
+        <!-- <q-list
+          class="q-mt-xl q-mx-sm bg-white"
+          dense
+          separator
+          v-for="(group, index) in clientInfo"
+          :key="index"
+        >
+          <template v-for="infosrdv in group" :key="infosrdv">
+            <q-item clickable v-ripple>
+              <q-item-section>
+                {{ infosrdv.date }}
+              </q-item-section>
+            </q-item>
+          </template>
+        </q-list> -->
       </div>
     </div>
   </q-page>
