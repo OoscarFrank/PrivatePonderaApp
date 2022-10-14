@@ -183,6 +183,16 @@ export default defineComponent({
         editNote.value = false;
         console.log(noteText);
       },
+      PinContact: () => {
+        pin.value = true;
+        client.value.pinned = "1";
+        console.log(selectedClient);
+      },
+      UnPinContact: () => {
+        pin.value = false;
+        client.value.pinned = "0";
+        console.log(selectedClient);
+      },
       client,
       clientInfo,
       loadClient,
@@ -195,27 +205,49 @@ export default defineComponent({
 </script>
 
 <template>
-  <q-page class="bg-primary">
-    <div class="bg-white" />
-    <div class="fixed-top bg-white shadow-2 q-pb-sm" style="z-index: 999">
-      <q-toolbar>
+  <q-page class="bg-grey-2">
+    <div class="fixed-top bg-grey-2 q-pb-sm shadow-1" style="z-index: 999">
+      <q-toolbar class="q-pa-sm">
         <q-btn
+          flat
           round
-          class="q-mx-sm"
+          class="q-ml-sm"
+          size="17px"
           icon="person"
           color="blue"
           @click="GoContactPage()"
         />
-        <q-btn round class="q-mx-sm" icon="history" @click="GoCallsPage()" />
-        <q-btn round class="q-mx-sm" icon="event" @click="GoCalendarPage()" />
-        <q-btn round class="q-mx-sm" icon="wallet" @click="GoWalletPage()" />
-        <q-space />
+        <q-btn
+          round
+          flat
+          color="blue"
+          class="q-ml-sm"
+          size="17px"
+          icon="history"
+          @click="GoCallsPage()"
+        />
+        <q-btn
+          round
+          flat
+          color="blue"
+          class="q-ml-sm"
+          size="17px"
+          icon="event"
+          @click="GoCalendarPage()"
+        />
+        <q-btn
+          round
+          flat
+          color="blue"
+          class="q-ml-sm"
+          size="17px"
+          icon="wallet"
+          @click="GoWalletPage()"
+        />
       </q-toolbar>
     </div>
-    <!-- <div style="position: relative; top: 70px" class="q-ml-sm">
-    </div> -->
 
-    <div style="position: relative; top: 75px">
+    <div style="position: relative; top: 84px">
       <q-btn
         style="font-size: 10px"
         class="text-blue q-mb-sm q-mx-sm"
@@ -294,21 +326,34 @@ export default defineComponent({
             v-if="!editNote"
             v-model="noteText"
             disable
-            type="textarea"
             outline
+            autogrow
             class="q-ma-sm"
           />
           <q-input
             v-if="editNote"
             v-model="noteText"
-            type="textarea"
             outline
+            autogrow
             class="q-ma-sm"
           />
         </q-card>
         <q-card class="q-pa-sm q-ma-sm" flat style="height: 55px">
           <span class="float-left q-ma-sm">Épingler</span>
-          <q-toggle v-model="pin" class="float-right" color="blue" />
+          <q-btn
+            v-if="!pin"
+            class="float-right"
+            color="blue"
+            icon="attachment"
+            @click="PinContact()"
+          />
+          <q-btn
+            v-if="pin"
+            class="float-right"
+            color="red"
+            icon="link_off"
+            @click="UnPinContact()"
+          />
         </q-card>
         <q-btn
           flat

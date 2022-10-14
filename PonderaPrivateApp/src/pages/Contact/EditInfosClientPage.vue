@@ -65,23 +65,48 @@ export default defineComponent({
 <template>
   <q-page class="bg-primary">
     <div class="bg-white" />
-    <div class="fixed-top bg-white shadow-2 q-pb-sm" style="z-index: 999">
-      <q-toolbar>
+    <div class="fixed-top bg-grey-2 q-pb-sm shadow-1" style="z-index: 999">
+      <q-toolbar class="q-pa-sm">
         <q-btn
+          flat
           round
-          class="q-mx-sm"
+          class="q-ml-sm"
+          size="17px"
           icon="person"
           color="blue"
           @click="GoContactPage()"
         />
-        <q-btn round class="q-mx-sm" icon="history" @click="GoCallsPage()" />
-        <q-btn round class="q-mx-sm" icon="event" @click="GoCalendarPage()" />
-        <q-btn round class="q-mx-sm" icon="wallet" @click="GoWalletPage()" />
-        <q-space />
+        <q-btn
+          round
+          flat
+          color="blue"
+          class="q-ml-sm"
+          size="17px"
+          icon="history"
+          @click="GoCallsPage()"
+        />
+        <q-btn
+          round
+          flat
+          color="blue"
+          class="q-ml-sm"
+          size="17px"
+          icon="event"
+          @click="GoCalendarPage()"
+        />
+        <q-btn
+          round
+          flat
+          color="blue"
+          class="q-ml-sm"
+          size="17px"
+          icon="wallet"
+          @click="GoWalletPage()"
+        />
       </q-toolbar>
     </div>
 
-    <div style="position: relative; top: 75px">
+    <div style="position: relative; top: 84px">
       <q-btn
         style="font-size: 10px"
         class="text-blue q-mb-sm q-mx-sm"

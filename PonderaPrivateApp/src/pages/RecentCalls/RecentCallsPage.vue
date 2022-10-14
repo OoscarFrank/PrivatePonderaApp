@@ -125,22 +125,46 @@ export default defineComponent({
 </script>
 
 <template>
-  <q-page>
-    <div class="bg-white" />
-
+  <q-page class="bg-grey-2">
     <!-- Top bar with buttons and options if it's available -->
-    <div class="fixed-top bg-white shadow-2 q-pb-sm" style="z-index: 999">
-      <q-toolbar>
-        <q-btn round class="q-mx-sm" icon="person" @click="GoContactPage()" />
+    <div class="fixed-top bg-grey-2 q-pb-sm shadow-1" style="z-index: 999">
+      <q-toolbar class="q-pa-sm">
+        <q-btn
+          flat
+          round
+          class="q-ml-sm"
+          size="17px"
+          icon="person"
+          color="blue"
+          @click="GoContactPage()"
+        />
         <q-btn
           round
-          class="q-mx-sm"
-          icon="history"
+          flat
           color="blue"
+          class="q-ml-sm shadow-2"
+          size="17px"
+          icon="history"
           @click="GoCallsPage()"
         />
-        <q-btn round class="q-mx-sm" icon="event" @click="GoCalendarPage()" />
-        <q-btn round class="q-mx-sm" icon="wallet" @click="GoWalletPage()" />
+        <q-btn
+          round
+          flat
+          color="blue"
+          class="q-ml-sm"
+          size="17px"
+          icon="event"
+          @click="GoCalendarPage()"
+        />
+        <q-btn
+          round
+          flat
+          color="blue"
+          class="q-ml-sm"
+          size="17px"
+          icon="wallet"
+          @click="GoWalletPage()"
+        />
       </q-toolbar>
     </div>
   </q-page>

@@ -144,29 +144,53 @@ export default defineComponent({
 </script>
 
 <template>
-  <q-page>
-    <div class="bg-white" />
-
+  <q-page class="bg-grey-2">
     <!-- Top bar with buttons and options if it's available -->
-    <div class="fixed-top bg-white shadow-2 q-pb-sm" style="z-index: 999">
-      <q-toolbar>
+    <div class="fixed-top bg-grey-2 q-pb-sm shadow-1" style="z-index: 999">
+      <q-toolbar class="q-pa-sm">
         <q-btn
+          flat
           round
-          class="q-mx-sm"
+          class="q-ml-sm shadow-2"
+          size="17px"
           icon="person"
           color="blue"
           @click="GoContactPage()"
         />
-        <q-btn round class="q-mx-sm" icon="history" @click="GoCallsPage()" />
-        <q-btn round class="q-mx-sm" icon="event" @click="GoCalendarPage()" />
-        <q-btn round class="q-mx-sm" icon="wallet" @click="GoWalletPage()" />
+        <q-btn
+          round
+          flat
+          color="blue"
+          class="q-ml-sm"
+          size="17px"
+          icon="history"
+          @click="GoCallsPage()"
+        />
+        <q-btn
+          round
+          flat
+          color="blue"
+          class="q-ml-sm"
+          size="17px"
+          icon="event"
+          @click="GoCalendarPage()"
+        />
+        <q-btn
+          round
+          flat
+          color="blue"
+          class="q-ml-sm"
+          size="17px"
+          icon="wallet"
+          @click="GoWalletPage()"
+        />
         <q-space />
-        <q-btn-dropdown dropdown-icon="more_vert">
+        <q-btn-dropdown flat color="blue" dropdown-icon="more_vert">
           <q-list>
             <q-item
               clickable
               v-close-popup
-              class="text-center bg-grey-4"
+              class="text-center bg-grey-4 text-blue"
               @click="ActualOnly()"
             >
               <q-item-section>
@@ -178,7 +202,7 @@ export default defineComponent({
               clickable
               v-close-popup
               @click="ShowAllContact()"
-              class="text-center bg-grey-4"
+              class="text-center bg-grey-4 text-blue"
             >
               <q-item-section>
                 <q-item-label>Tous les clients</q-item-label>
@@ -190,8 +214,8 @@ export default defineComponent({
     </div>
 
     <!-- Serach bar to find a contact -->
-    <div style="position: relative; top: 70px" class="shadow-3 q-pa-sm">
-      <q-input outlined label="Rechercher" v-model="inputSearch">
+    <div style="position: relative; top: 73px" class="q-pa-sm bg-grey-2">
+      <q-input rounded outlined label="Rechercher" v-model="inputSearch">
         <template v-slot:append>
           <q-icon name="search" />
         </template>
@@ -199,14 +223,15 @@ export default defineComponent({
     </div>
 
     <!-- Create list of contact when ActualOnly is disable -->
-    <div style="position: relative; top: 78px">
+    <div style="position: relative; top: 70px">
       <q-list
+        class="bg-white"
         dense
         separator
         v-for="(group, index) in clientGroups"
         :key="index"
       >
-        <q-item class="bg-primary">
+        <q-item class="bg-grey-4">
           <q-item-section class="text-bold"> {{ index }} </q-item-section>
         </q-item>
         <template v-for="client in group" :key="client">
