@@ -50,6 +50,10 @@ const routes = [
         component: () => import("pages/Calendar/CalendarPage.vue"),
       },
       {
+        path: "AddMeeting",
+        component: () => import("pages/Calendar/AddMeetingPage.vue"),
+      },
+      {
         path: "RemindersPage",
         component: () => import("pages/WalletReminders/RemindersPage.vue"),
       },

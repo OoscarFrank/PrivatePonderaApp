@@ -214,6 +214,9 @@ export default defineComponent({
         router.push("/HistoryMeetings");
         console.log("ocucoucouc");
       },
+      AddMeetingPage: () => {
+        router.push("/AddMeeting");
+      },
       client,
       clientInfo,
       loadClient,
@@ -387,6 +390,7 @@ export default defineComponent({
           flat
           style="font-size: 10px"
           class="q-mx-sm float-right text-blue"
+          @click="AddMeetingPage()"
           >Ajouter un rendez-vous</q-btn
         >
 

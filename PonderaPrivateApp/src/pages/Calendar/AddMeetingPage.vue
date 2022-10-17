@@ -5,7 +5,7 @@ import { useRouter } from "vue-router";
 import { date } from "quasar";
 
 export default defineComponent({
-  name: "CalendarPage",
+  name: "AddMeeting",
   beforeRouteEnter(to, from, next) {
     next((vm) => {
       vm.client = to.query;
@@ -159,8 +159,10 @@ export default defineComponent({
       },
     });
     var formatted_date = new Date().toJSON().slice(0, 10).replace(/-/g, "-");
-
+    const ActualDate = new Date().toJSON().slice(0, 10).replace(/-/g, "/");
+    // console.log(ActualDate);
     return {
+      date: ref(ActualDate),
       GoContactPage: () => {
         router.push("/Contact");
       },
@@ -188,7 +190,7 @@ export default defineComponent({
 
         return str;
       },
-      AddMeetingPage: () => {
+      AddMeeting: () => {
         router.push("/AddMeeting");
       },
       client,
@@ -196,6 +198,7 @@ export default defineComponent({
       clientGroups,
       loadClient,
       formatted_date,
+      ActualDate,
     };
   },
 });
@@ -228,7 +231,7 @@ export default defineComponent({
           round
           flat
           color="blue"
-          class="q-ml-sm shadow-2"
+          class="q-ml-sm"
           size="17px"
           icon="event"
           @click="GoCalendarPage()"
@@ -245,33 +248,11 @@ export default defineComponent({
       </q-toolbar>
     </div>
     <div style="position: relative; top: 84px">
-      <q-btn
-        style="font-size: 10px"
-        class="text-blue q-mx-sm text-center"
-        @click="AddMeetingPage()"
-        >Ajouter un rendez-vous</q-btn
-      >
-      <div class="q-mx-sm">
-        <q-list
-          class="q-mt-lg q-mx-sm bg-white"
-          dense
-          separator
-          v-for="(group, index) in clientGroups"
-          :key="index"
-        >
-          <template v-for="(group, index) in clientInfo" :key="index">
-            <q-item
-              clickable
-              v-ripple
-              v-for="infosrdv in group"
-              :key="infosrdv"
-            >
-              <q-item-section>
-                {{ infosrdv.date }}
-              </q-item-section>
-            </q-item>
-          </template>
-        </q-list>
+      <div class="q-ma-sm text-center">
+        <q-date v-model="date" flat today-btn color="blue" />
+      </div>
+      <div class="text-center text-blue q-ma-lg">
+        <q-btn flat>Ajouter</q-btn>
       </div>
     </div>
   </q-page>

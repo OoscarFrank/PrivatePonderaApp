@@ -139,7 +139,6 @@ export default defineComponent({
       clients,
       actualOnly,
       inputSearch,
-      clientList,
     };
   },
 });
