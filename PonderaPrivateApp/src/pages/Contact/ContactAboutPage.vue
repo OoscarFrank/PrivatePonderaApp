@@ -137,6 +137,7 @@ export default defineComponent({
       },
     });
     const show = ref(false);
+    var formatted_date = new Date().toJSON().slice(0, 10).replace(/-/g, "-");
     return {
       GoContactPage: () => {
         router.push("/Contact");
@@ -163,14 +164,20 @@ export default defineComponent({
         router.go(-1);
       },
       formatDate: (dbDate) => {
-        console.log("formatDate", dbDate);
+        // console.log("formatDate", dbDate);
         var str = date.formatDate(new Date(dbDate), "DD/MM/YYYY");
+
+        return str;
+      },
+      formatDateMeeting: (dbDate) => {
+        // console.log("formatDate", dbDate);
+        var str = date.formatDate(new Date(dbDate), "dddd D MMMM, YYYY");
 
         return str;
       },
       ChangeInfosClientPage: (selectedItem) => {
         const selectedClient = JSON.parse(JSON.stringify(selectedItem));
-        console.log(selectedClient);
+        // console.log(selectedClient);
         router.push({
           path: "/EditInfosClient",
           query: { ...selectedClient },
@@ -181,17 +188,31 @@ export default defineComponent({
       },
       SaveNote: () => {
         editNote.value = false;
-        console.log(noteText);
+        // console.log(noteText);
       },
       PinContact: () => {
         pin.value = true;
         client.value.pinned = "1";
-        console.log(selectedClient);
       },
       UnPinContact: () => {
         pin.value = false;
         client.value.pinned = "0";
-        console.log(selectedClient);
+      },
+      ActualDiffWeight: (first) => {
+        var last = clientInfo.value.weight.length - 1;
+        var actual = first - clientInfo.value.weight[last].weight;
+
+        if (first >= clientInfo.value.weight[last].weight) {
+          var finalActual = "-" + actual;
+        } else {
+          var finalActual = "+" + actual;
+        }
+
+        return finalActual;
+      },
+      HistoryMeetings: () => {
+        router.push("/HistoryMeetings");
+        console.log("ocucoucouc");
       },
       client,
       clientInfo,
@@ -199,6 +220,7 @@ export default defineComponent({
       editNote,
       noteText,
       pin,
+      formatted_date,
     };
   },
 });
@@ -296,7 +318,7 @@ export default defineComponent({
       </q-card>
       <div class="q-mx-sm q-mt-sm">
         <span class="q-ma-sm float-left"
-          >{{ clientInfo.weight[0].weight }} kg en
+          >{{ ActualDiffWeight(clientInfo.weight[0].weight) }} kg en
           {{ clientInfo.contract.passed }} jours</span
         >
         <span class="q-ma-sm float-right"
@@ -356,6 +378,12 @@ export default defineComponent({
           />
         </q-card>
         <q-btn
+          style="font-size: 10px"
+          class="q-mx-sm float-left text-blue"
+          @click="HistoryMeetings(clientInfo)"
+          >Historique des rendez-vous</q-btn
+        >
+        <q-btn
           flat
           style="font-size: 10px"
           class="q-mx-sm float-right text-blue"
@@ -370,29 +398,13 @@ export default defineComponent({
           :key="index"
         >
           <template v-for="infosrdv in group" :key="infosrdv">
-            <q-item clickable v-ripple v-if="infosrdv.date">
+            <q-item clickable v-ripple v-if="formatted_date < infosrdv.date">
               <q-item-section>
-                {{ infosrdv.date }}
+                {{ formatDateMeeting(infosrdv.date) }}
               </q-item-section>
             </q-item>
           </template>
         </q-list>
-
-        <!-- <q-list
-          class="q-mt-xl q-mx-sm bg-white"
-          dense
-          separator
-          v-for="(group, index) in clientInfo"
-          :key="index"
-        >
-          <template v-for="infosrdv in group" :key="infosrdv">
-            <q-item clickable v-ripple>
-              <q-item-section>
-                {{ infosrdv.date }}
-              </q-item-section>
-            </q-item>
-          </template>
-        </q-list> -->
       </div>
     </div>
   </q-page>

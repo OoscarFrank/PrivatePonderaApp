@@ -43,6 +43,7 @@ export default defineComponent({
           });
         });
     };
+
     var inputSearch = ref("");
     const actualOnly = ref(false);
     const router = useRouter();
@@ -138,6 +139,7 @@ export default defineComponent({
       clients,
       actualOnly,
       inputSearch,
+      clientList,
     };
   },
 });

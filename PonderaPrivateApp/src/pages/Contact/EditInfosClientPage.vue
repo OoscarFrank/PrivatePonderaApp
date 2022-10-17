@@ -63,7 +63,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <q-page class="bg-primary">
+  <q-page class="bg-grey-2">
     <div class="bg-white" />
     <div class="fixed-top bg-grey-2 q-pb-sm shadow-1" style="z-index: 999">
       <q-toolbar class="q-pa-sm">

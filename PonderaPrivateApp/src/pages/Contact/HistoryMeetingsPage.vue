@@ -5,10 +5,12 @@ import { useRouter } from "vue-router";
 import { date } from "quasar";
 
 export default defineComponent({
-  name: "CalendarPage",
+  name: "HistoryMeetings",
   beforeRouteEnter(to, from, next) {
     next((vm) => {
-      vm.client = to.query;
+      // vm.client = to.query;
+      vm.client = window.selectedClient;
+      vm.loadClient();
     });
   },
   setup() {
@@ -49,34 +51,7 @@ export default defineComponent({
     };
 
     const router = useRouter();
-    var clientGroups = ref({
-      A: [],
-      B: [],
-      C: [],
-      D: [],
-      E: [],
-      F: [],
-      G: [],
-      H: [],
-      I: [],
-      J: [],
-      K: [],
-      L: [],
-      M: [],
-      N: [],
-      O: [],
-      P: [],
-      Q: [],
-      R: [],
-      S: [],
-      T: [],
-      U: [],
-      V: [],
-      W: [],
-      X: [],
-      Y: [],
-      Z: [],
-    });
+
     var client = ref({
       attribution: null,
       civility: "1",
@@ -182,6 +157,9 @@ export default defineComponent({
       GoAboutContactPage: () => {
         router.push("/ContactAbout");
       },
+      GoBack: () => {
+        router.go(-1);
+      },
       formatDate: (dbDate) => {
         // console.log("formatDate", dbDate);
         var str = date.formatDate(new Date(dbDate), "dddd D MMMM, YYYY");
@@ -190,7 +168,6 @@ export default defineComponent({
       },
       client,
       clientInfo,
-      clientGroups,
       loadClient,
       formatted_date,
     };
@@ -200,7 +177,6 @@ export default defineComponent({
 
 <template>
   <q-page class="bg-grey-2">
-    <div class="bg-white" />
     <div class="fixed-top bg-grey-2 q-pb-sm shadow-1" style="z-index: 999">
       <q-toolbar class="q-pa-sm">
         <q-btn
@@ -225,7 +201,7 @@ export default defineComponent({
           round
           flat
           color="blue"
-          class="q-ml-sm shadow-2"
+          class="q-ml-sm"
           size="17px"
           icon="event"
           @click="GoCalendarPage()"
@@ -241,24 +217,27 @@ export default defineComponent({
         />
       </q-toolbar>
     </div>
+
     <div style="position: relative; top: 84px">
+      <q-btn
+        style="font-size: 10px"
+        class="text-blue q-mt-sm q-mx-sm q-mb-lg"
+        round
+        icon="arrow_back_ios_new"
+        @click="GoBack()"
+      ></q-btn>
       <div class="q-mx-sm">
         <q-list
-          class="q-mt-xl q-mx-sm bg-white"
+          class="q-mx-sm bg-white"
           dense
           separator
-          v-for="(group, index) in clientGroups"
+          v-for="(group, index) in clientInfo"
           :key="index"
         >
-          <template v-for="(group, index) in clientInfo" :key="index">
-            <q-item
-              clickable
-              v-ripple
-              v-for="infosrdv in group"
-              :key="infosrdv"
-            >
+          <template v-for="infosrdv in group" :key="infosrdv">
+            <q-item clickable v-ripple v-if="formatted_date > infosrdv.date">
               <q-item-section>
-                {{ infosrdv.date }}
+                {{ formatDate(infosrdv.date) }}
               </q-item-section>
             </q-item>
           </template>

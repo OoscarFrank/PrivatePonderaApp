@@ -38,6 +38,10 @@ const routes = [
         component: () => import("pages/Contact/EditInfosClientPage.vue"),
       },
       {
+        path: "HistoryMeetings",
+        component: () => import("pages/Contact/HistoryMeetingsPage.vue"),
+      },
+      {
         path: "RecentCallsPage",
         component: () => import("pages/RecentCalls/RecentCallsPage.vue"),
       },
