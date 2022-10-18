@@ -200,7 +200,7 @@ export default defineComponent({
       },
       ActualDiffWeight: (first) => {
         var last = clientInfo.value.weight.length - 1;
-        var actual = first - clientInfo.value.weight[last].weight;
+        var actual = (first - clientInfo.value.weight[last].weight).toFixed(2);
 
         if (first >= clientInfo.value.weight[last].weight) {
           var finalActual = "-" + actual;

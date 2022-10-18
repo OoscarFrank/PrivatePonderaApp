@@ -44,6 +44,16 @@ export default defineComponent({
         });
     };
 
+    const isInFilter = function (value) {
+      if (inputSearch.value === "") {
+        return true;
+      }
+      return (
+        value.nom.toLowerCase().includes(inputSearch.value.toLowerCase()) ||
+        value.prenom.toLowerCase().includes(inputSearch.value.toLowerCase())
+      );
+    };
+
     var inputSearch = ref("");
     const actualOnly = ref(false);
     const router = useRouter();
@@ -139,6 +149,7 @@ export default defineComponent({
       clients,
       actualOnly,
       inputSearch,
+      isInFilter,
     };
   },
 });
@@ -239,11 +250,14 @@ export default defineComponent({
           <q-item
             clickable
             v-ripple
-            v-if="!actualOnly || (actualOnly && client.enabled === '1')"
+            v-if="
+              (!actualOnly || (actualOnly && client.enabled === '1')) &&
+              isInFilter(client)
+            "
             @click="GoAboutContactPage(client)"
           >
             <q-item-section>
-              {{ client.nom }} {{ client.prenom }}
+              {{ client.nom.toUpperCase() }} {{ client.prenom.toUpperCase() }}
             </q-item-section>
           </q-item>
         </template>
