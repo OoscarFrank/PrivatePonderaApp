@@ -193,6 +193,9 @@ export default defineComponent({
       AddMeeting: () => {
         router.push("/AddMeeting");
       },
+      GoBack: () => {
+        router.go(-1);
+      },
       client,
       clientInfo,
       clientGroups,
@@ -248,6 +251,13 @@ export default defineComponent({
       </q-toolbar>
     </div>
     <div style="position: relative; top: 84px">
+      <q-btn
+        style="font-size: 10px"
+        class="text-blue q-mb-sm q-mx-sm"
+        round
+        icon="arrow_back_ios_new"
+        @click="GoBack()"
+      ></q-btn>
       <div class="q-ma-sm text-center">
         <q-date v-model="date" flat today-btn color="blue" />
       </div>

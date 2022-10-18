@@ -251,28 +251,6 @@ export default defineComponent({
         @click="AddMeetingPage()"
         >Ajouter un rendez-vous</q-btn
       >
-      <div class="q-mx-sm">
-        <q-list
-          class="q-mt-lg q-mx-sm bg-white"
-          dense
-          separator
-          v-for="(group, index) in clientGroups"
-          :key="index"
-        >
-          <template v-for="(group, index) in clientInfo" :key="index">
-            <q-item
-              clickable
-              v-ripple
-              v-for="infosrdv in group"
-              :key="infosrdv"
-            >
-              <q-item-section>
-                {{ infosrdv.date }}
-              </q-item-section>
-            </q-item>
-          </template>
-        </q-list>
-      </div>
     </div>
   </q-page>
 </template>
