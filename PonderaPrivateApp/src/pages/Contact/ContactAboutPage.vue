@@ -177,13 +177,8 @@ export default defineComponent({
 
         return str;
       },
-      ChangeInfosClientPage: (selectedItem) => {
-        const selectedClient = JSON.parse(JSON.stringify(selectedItem));
-        // console.log(selectedClient);
-        router.push({
-          path: "/EditInfosClient",
-          query: { ...selectedClient },
-        });
+      ChangeInfosClientPage: () => {
+        router.push("/EditInfosClient");
       },
       EditNote: () => {
         editNote.value = true;
@@ -191,14 +186,53 @@ export default defineComponent({
       SaveNote: () => {
         editNote.value = false;
         // console.log(noteText);
+
+        console.log(client.value.id, client.value.note);
+
+        $axios
+          .post($apiUrl, {
+            route: "user",
+            cmd: "updateClient",
+            userid: client.value.id,
+            data: {
+              note: client.value.note,
+            },
+          })
+          .then((response) => {
+            //
+          })
+          .catch(() => {
+            $q.notify({
+              color: "negative",
+              position: "top",
+              message: "erreur",
+              icon: "fal fa-exclamation-triangle",
+            });
+          });
       },
-      PinContact: () => {
-        pin.value = true;
-        client.value.pinned = "1";
-      },
-      UnPinContact: () => {
-        pin.value = false;
-        client.value.pinned = "0";
+      setPinned: (value) => {
+        client.value.pinned = value;
+
+        $axios
+          .post($apiUrl, {
+            route: "user",
+            cmd: "updateClient",
+            userid: client.value.id,
+            data: {
+              pinned: client.value.pinned,
+            },
+          })
+          .then((response) => {
+            //
+          })
+          .catch(() => {
+            $q.notify({
+              color: "negative",
+              position: "top",
+              message: "erreur",
+              icon: "fal fa-exclamation-triangle",
+            });
+          });
       },
       ActualDiffWeight: (first) => {
         var last = clientInfo.value.weight.length - 1;
@@ -224,7 +258,6 @@ export default defineComponent({
       loadClient,
       editNote,
       noteText,
-      pin,
       formatted_date,
     };
   },
@@ -286,7 +319,7 @@ export default defineComponent({
         flat
         style="font-size: 10px"
         class="q-mx-sm text-blue float-right"
-        @click="ChangeInfosClientPage(client)"
+        @click="ChangeInfosClientPage()"
         >modifier</q-btn
       >
       <q-card class="q-mx-sm" flat>
@@ -345,21 +378,15 @@ export default defineComponent({
           flat
           style="font-size: 10px"
           class="q-mx-sm float-right text-blue"
+          input-class="q-pt-sm"
           @click="SaveNote()"
           >sauvegarder</q-btn
         >
         <q-card class="q-pa-sm q-ma-sm" flat>
           <q-input
-            v-if="!editNote"
-            v-model="noteText"
-            disable
-            outline
-            autogrow
-            class="q-ma-sm"
-          />
-          <q-input
-            v-if="editNote"
-            v-model="noteText"
+            :readonly="!editNote"
+            :borderless="!editNote"
+            v-model="client.note"
             outline
             autogrow
             class="q-ma-sm"
@@ -368,18 +395,18 @@ export default defineComponent({
         <q-card class="q-pa-sm q-ma-sm" flat style="height: 55px">
           <span class="float-left q-ma-sm">Épingler</span>
           <q-btn
-            v-if="!pin"
+            v-if="client.pinned == 0"
             class="float-right"
             color="blue"
             icon="attachment"
-            @click="PinContact()"
+            @click="setPinned('1')"
           />
           <q-btn
-            v-if="pin"
+            v-else
             class="float-right"
             color="red"
             icon="link_off"
-            @click="UnPinContact()"
+            @click="setPinned('0')"
           />
         </q-card>
         <q-btn
