@@ -73,6 +73,8 @@ export default defineComponent({
       pays: "FRANCE",
       paysnaissance: "",
       phone: "",
+      pinned: "0",
+      note: "",
       prenom: "PRENOM",
       programStartDate: "2020-04-30 12:37:25",
       rue: "28, RUE DE THANN",
