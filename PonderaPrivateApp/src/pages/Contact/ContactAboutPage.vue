@@ -243,7 +243,6 @@ export default defineComponent({
       },
       HistoryMeetings: () => {
         router.push("/HistoryMeetings");
-        console.log("ocucoucouc");
       },
       AddMeetingPage: () => {
         router.push("/AddMeeting");
