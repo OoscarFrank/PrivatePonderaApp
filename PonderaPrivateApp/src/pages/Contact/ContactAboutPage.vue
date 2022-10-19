@@ -53,7 +53,6 @@ export default defineComponent({
     const router = useRouter();
     const editNote = ref(false);
     const noteText = ref("");
-    const pin = ref(false);
 
     var client = ref({
       attribution: null,
@@ -138,7 +137,6 @@ export default defineComponent({
         progress: 0.15469613259668508,
       },
     });
-    const show = ref(false);
     var formatted_date = new Date().toJSON().slice(0, 10).replace(/-/g, "-");
     return {
       GoContactPage: () => {
@@ -166,13 +164,11 @@ export default defineComponent({
         router.go(-1);
       },
       formatDate: (dbDate) => {
-        // console.log("formatDate", dbDate);
         var str = date.formatDate(new Date(dbDate), "DD/MM/YYYY");
 
         return str;
       },
       formatDateMeeting: (dbDate) => {
-        // console.log("formatDate", dbDate);
         var str = date.formatDate(new Date(dbDate), "dddd D MMMM, YYYY");
 
         return str;
@@ -185,7 +181,6 @@ export default defineComponent({
       },
       SaveNote: () => {
         editNote.value = false;
-        // console.log(noteText);
 
         console.log(client.value.id, client.value.note);
 
@@ -328,15 +323,6 @@ export default defineComponent({
             >{{ client.nom }} {{ client.prenom }}</span
           >
           <br />
-          <span> {{ clientInfo.contract.type }} </span>
-        </q-card-section>
-        <q-card-section class="text-center">
-          <span
-            >{{ formatDate(clientInfo.contract.start) }} -
-            {{ formatDate(clientInfo.contract.end) }}</span
-          >
-        </q-card-section>
-        <q-card-section class="text-center">
           <q-btn
             flat
             class="text-blue"
@@ -354,16 +340,23 @@ export default defineComponent({
           >
         </q-card-section>
       </q-card>
+      <q-card class="q-mx-sm q-mt-lg" flat>
+        <q-card-section class="text-center">
+          <span> {{ clientInfo.contract.type }} </span>
+          <br /><br />
+          <span
+            >{{ formatDate(clientInfo.contract.start) }} -
+            {{ formatDate(clientInfo.contract.end) }}</span
+          >
+          <br /><br />
+          <span v-if="clientInfo.weight.length > 2"
+            >{{ ActualDiffWeight(clientInfo.weight[0].weight) }} kg en
+            {{ clientInfo.contract.passed }} jours,
+            {{ clientInfo.contract.remaining }} jours restants</span
+          >
+        </q-card-section>
+      </q-card>
       <div class="q-mx-sm q-mt-sm">
-        <span class="q-ma-sm float-left"
-          >{{ ActualDiffWeight(clientInfo.weight[0].weight) }} kg en
-          {{ clientInfo.contract.passed }} jours</span
-        >
-        <span class="q-ma-sm float-right"
-          >{{ clientInfo.contract.remaining }} jours restants</span
-        >
-        <br />
-        <br />
         <span class="q-ma-sm text-grey">Note</span>
         <q-btn
           v-if="!editNote"
@@ -392,7 +385,7 @@ export default defineComponent({
             class="q-ma-sm"
           />
         </q-card>
-        <q-card class="q-pa-sm q-ma-sm" flat style="height: 55px">
+        <q-card class="q-pa-sm q-ma-sm q-mt-lg" flat style="height: 55px">
           <span class="float-left q-ma-sm">Épingler</span>
           <q-btn
             v-if="client.pinned == 0"
@@ -411,14 +404,14 @@ export default defineComponent({
         </q-card>
         <q-btn
           style="font-size: 10px"
-          class="q-mx-sm float-left text-blue"
+          class="q-ma-sm float-left text-blue"
           @click="HistoryMeetings(clientInfo)"
           >Historique des rendez-vous</q-btn
         >
         <q-btn
           flat
           style="font-size: 10px"
-          class="q-mx-sm float-right text-blue"
+          class="q-ma-sm float-right text-blue"
           @click="AddMeetingPage()"
           >Ajouter un rendez-vous</q-btn
         >
